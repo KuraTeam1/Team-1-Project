@@ -12,6 +12,6 @@ def authorized_action(endpoint:str,token="")->int:
     req = requests.get(endpoint,auth=HTTPBasicAuth(token,""))
     return(req.status_code,req.text)
 
-print(create_user(url+"api/users","nabeel","password"))
-token = json.loads(create_token(url+"api/token","nabeel","password"))
-print(authorized_action(url+"api/resource",token['token']))
+print(create_user(url+"api/users",username=,password=))
+token = json.loads(create_token(url+"api/token",username=,password=))
+print(authorized_action(url+"api/resource",token=token['token']))
