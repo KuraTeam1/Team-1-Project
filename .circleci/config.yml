@@ -2,6 +2,8 @@ version: 2.1
 
 orbs:
   node: circleci/node@5.0
+  aws-ecr: circleci/aws-ecr@7.3.0
+  aws-ecs: circleci/aws-ecs@2.2.1
 
 workflows:
   test_run:
@@ -16,6 +18,11 @@ workflows:
   mocha_test:
     jobs: 
       - mocha_test
+  build-and-deploy:
+    jobs:
+      - aws-ecr/build-and-push-image:
+          repo: "${kurateam1repo}"
+          tag: "${CIRCLE_SHA1}"
 # -store_test_results:
 #     path: test-results
 # -store_artifacts:
@@ -43,3 +50,4 @@ jobs:
           path: ~/junit
       - store_artifacts:
           path: ~/junit 
+ 
