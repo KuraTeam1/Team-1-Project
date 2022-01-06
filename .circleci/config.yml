@@ -27,8 +27,8 @@ jobs:
     docker:
       - image: cimg/node:latest 
         auth:
-          username: mydockerhub-user
-          password: $DOCKERHUB_PASSWORD
+          username: kurateam1
+          password: kurapass1
     steps:
       - checkout
       - run: npm install
