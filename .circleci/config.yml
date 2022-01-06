@@ -24,6 +24,11 @@ workflows:
 
 jobs:
   mocha_test:
+    docker:
+      - image: cimg/<language>:<version TAG>
+        auth:
+          username: mydockerhub-user
+          password: $DOCKERHUB_PASSWORD
     steps:
       - checkout
       - run: npm install
