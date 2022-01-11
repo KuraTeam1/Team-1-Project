@@ -25,8 +25,8 @@ resource "aws_security_group" "web-sg" {
 }
 
 # Create Application Security Group
-resource "aws_security_group" "webserver-sg" {
-  name        = "Webserver-SG"
+resource "aws_security_group" "app-sg" {
+  name        = "App-SG"
   description = "Allow inbound traffic from ALB"
   vpc_id      = aws_vpc.team1-vpc.id
 
@@ -61,7 +61,7 @@ resource "aws_security_group" "database-sg" {
     from_port       = 3306
     to_port         = 3306
     protocol        = "tcp"
-    security_groups = [aws_security_group.webserver-sg.id]
+    security_groups = [aws_security_group.app-sg.id]
   }
 
   egress {
