@@ -1,4 +1,3 @@
-
 # Web Load Balancing
 
 resource "aws_alb" "web-load-balancer" {
@@ -11,7 +10,6 @@ resource "aws_alb" "web-load-balancer" {
       aws_subnet.web-subnet-3.id
   ]
 }
-
 resource "aws_alb_target_group" "web-ecs-target-group" {
   name     = "web-ecs-target-group"
   port     = "80"
@@ -53,7 +51,7 @@ resource "aws_alb_listener" "public-alb-listener" {
 
 resource "aws_alb" "app-load-balancer" {
   name            = "app-load-balancer"
-  security_groups = ["${aws_security_group.appservers-alb-sg.id}"]
+  security_groups = aws_security_group.app-alb-sg.id
 
   subnets = [
     aws_subnet.app-subnet-1.id,
