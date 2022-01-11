@@ -23,7 +23,6 @@ resource "aws_security_group" "web-sg" {
     Name = "Web-SG"
   }
 }
-
 # Create Application Security Group
 resource "aws_security_group" "app-sg" {
   name        = "App-SG"
@@ -134,12 +133,12 @@ resource "aws_security_group" "web-alb-sg" {
   }
 
   tags = {
-    Name = "public-alb-sg"
+    Name = "web-alb-sg"
   }
 }
 
-resource "aws_security_group" "appservers-alb-sg" {
-  name        = "appservers-alb-sg"
+resource "aws_security_group" "app-alb-sg" {
+  name        = "app-alb-sg"
   description = "Security Group for app servers ALB"
   vpc_id      = aws_vpc.team1-vpc.id
 
@@ -158,6 +157,6 @@ resource "aws_security_group" "appservers-alb-sg" {
   }
 
   tags = {
-    Name = "appservers-alb-sg"
+    Name = "app-alb-sg"
   }
 }
