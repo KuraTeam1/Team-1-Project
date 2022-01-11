@@ -5,7 +5,6 @@ resource "aws_vpc" "team1-vpc" {
     Name = "team1-vpc"
   }
 }
-
 # Create Web Public Subnets
 resource "aws_subnet" "web-subnet-1" {
   vpc_id                  = aws_vpc.team1-vpc.id
@@ -17,7 +16,6 @@ resource "aws_subnet" "web-subnet-1" {
     Name = "Web-1a"
   }
 }
-
 resource "aws_subnet" "web-subnet-2" {
   vpc_id                  = aws_vpc.team1-vpc.id
   cidr_block              = "10.0.2.0/24"
@@ -38,7 +36,6 @@ resource "aws_subnet" "web-subnet-3" {
     Name = "Web-3c"
   }
 }
-
 # Create Application Private Subnets
 resource "aws_subnet" "app-subnet-1" {
   vpc_id                  = aws_vpc.team1-vpc.id
@@ -50,7 +47,6 @@ resource "aws_subnet" "app-subnet-1" {
     Name = "app-1a"
   }
 }
-
 resource "aws_subnet" "app-subnet-2" {
   vpc_id                  = aws_vpc.team1-vpc.id
   cidr_block              = "10.0.12.0/24"
@@ -61,7 +57,6 @@ resource "aws_subnet" "app-subnet-2" {
     Name = "app-2b"
   }
 }
-
 resource "aws_subnet" "app-subnet-3" {
   vpc_id                  = aws_vpc.team1-vpc.id
   cidr_block              = "10.0.13.0/24"
@@ -190,5 +185,6 @@ resource "aws_route_table_association" "app-c" {
   subnet_id      = aws_subnet.app-subnet-3.id
   route_table_id = aws_route_table.app-rt.id
 }
+
 
 
