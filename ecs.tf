@@ -1,3 +1,4 @@
+
 data "aws_iam_policy_document" "ecs_agent" {
   statement {
     actions = ["sts:AssumeRole"]
@@ -56,7 +57,7 @@ resource "aws_ecs_cluster" "ecs_cluster" {
 
 resource "aws_ecs_task_definition" "task_definition" {
     family                = "kurateam1repo"
-    container_definitions = data.template_file.task_definition_template.rendered
+    container_definitions = templatefile(task_definition.json.tpl)
 }
 
 resource "aws_ecs_service" "kurateam1repo" {
