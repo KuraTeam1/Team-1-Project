@@ -57,7 +57,17 @@ resource "aws_ecs_cluster" "ecs_cluster" {
 
 resource "aws_ecs_task_definition" "task_definition" {
     family                = "kurateam1repo"
-    container_definitions = data.template_file.task_definition_template.rendered
+    container_definitions = <<TASK_DEFINITION [
+  {
+    "essential": true,
+    "memory": 512,
+    "name": "worker",
+    "cpu": 2,
+    "image": "${REPOSITORY_URL}:latest",
+    "environment": []
+  }
+]
+  TASK_DEFINITION
 }
 
 resource "aws_ecs_service" "kurateam1repo" {
