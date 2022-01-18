@@ -57,7 +57,7 @@ resource "aws_ecs_cluster" "ecs_cluster" {
 
 resource "aws_ecs_task_definition" "task_definition" {
     family                = "kurateam1repo"
-    container_definitions = file("task_definition.json.tpl")
+    container_definitions = file("task_definition.json")
 
 resource "aws_ecs_service" "kurateam1repo" {
     name            = "kurateam1repo"
