@@ -1,8 +1,7 @@
 # Web Load Balancing
-
 resource "aws_alb" "web-load-balancer" {
   name            = "web-load-balancer"
-  security_groups = aws_security_group.web-alb-sg.id
+  security_groups = [aws_security_group.web-alb-sg.id]
 
   subnets = [
       aws_subnet.web-subnet-1.id,
@@ -51,7 +50,7 @@ resource "aws_alb_listener" "public-alb-listener" {
 
 resource "aws_alb" "app-load-balancer" {
   name            = "app-load-balancer"
-  security_groups = aws_security_group.app-alb-sg.id
+  security_groups = [aws_security_group.app-alb-sg.id]
 
   subnets = [
     aws_subnet.app-subnet-1.id,
