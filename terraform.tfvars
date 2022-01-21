@@ -12,7 +12,7 @@ public_subnets = ["192.168.101.0/24", "192.168.102.0/24","192.168.103.0/24"]
 
 database_subnets = ["192.168.201.0/24", "192.168.202.0/24","192.168.203.0/24"]
 
-ecs_key_pair_name="KP124"
+ecs_key_pair_name="kurakey.pem"
 
 ecs_ami = {
   us-east-2      = "ami-64300001"
