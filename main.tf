@@ -9,6 +9,6 @@ terraform {
 
 provider "aws" {
   region     = "${var.region}"
-  access_key = "${AWS_ACCESS_KEY_ID.circleci.secret}"
-  secret_key = "${AWS_SECRET_ACCESS_KEY.circleci.secret}"
+  access_key = "${AWS_ACCESS_KEY_ID.circleci.id}"
+  secret_key = "${AWS_SECRET_ACCESS_KEY.circleci.id}"
 }
