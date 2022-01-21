@@ -13,13 +13,10 @@ jobs:
           path: .
       - terraform/plan:
           path: .
-          context: terraform
       - terraform/apply:
           path: .
-          context: terraform
       - terraform/destroy:
           path: .
-          context: terraform
     working_directory: ~/src
 workflows:
   single-job-lifecycle:
