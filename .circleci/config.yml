@@ -9,14 +9,19 @@ jobs:
       - checkout
       - terraform/init:
           path: .
+          context: terraform
       - terraform/validate:
           path: .
+          context: terraform
       - terraform/plan:
           path: .
+          context: terraform
       - terraform/apply:
           path: .
+          context: terraform
       - terraform/destroy:
           path: .
+          context: terraform
     working_directory: ~/src
 workflows:
   single-job-lifecycle:
