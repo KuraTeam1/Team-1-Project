@@ -21,7 +21,7 @@ resource "aws_iam_role_policy_attachment" "ecs-instance-role-attachment" {
 }
 
 resource "aws_iam_instance_profile" "ecs-instance-profile" {
-  name = "ecs-instance-profile1"
+  name = "ecs-instance-profile"
   path = "/"
 
   //  roles = ["${aws_iam_role.ecs-instance-role.id}"]
