@@ -1,135 +1,47 @@
-# Web Servers
-data "aws_ecs_task_definition" "nginx" {
-  task_definition = "${aws_ecs_task_definition.nginx.family}"
-}
 
-resource "aws_ecs_task_definition" "nginx" {
-  family = "nginx"
-
-  container_definitions = <<DEFINITION
+resource "aws_ecs_task_definition" "kura-task" {
+  family                   ="kura-task" # Naming our first task
+  container_definitions    = <<DEFINITION
   [
     {
-        "name": "nginx",
-        "image": "nginx:latest",
-        "memory": 256,
-        "cpu": 256,
-        "essential": true,
-        "portMappings": [
-          {
-            "containerPort": 80,
-            "hostPort": 80,
-            "protocol": "tcp"
-          }
-        ]
+      "name":"kura-task",
+      "image": "913777954597.dkr.ecr.us-east-1.amazonaws.com/913777954597.dkr.ecr.us-east-1.amazonaws.com/test-for-circleci:188",
+      "essential": true,
+      "portMappings": [
+        {
+          "containerPort": 3000,
+          "hostPort": 3000
+        }
+      ],
+      "memory": 512,
+      "cpu": 256
     }
   ]
   DEFINITION
+  requires_compatibilities = ["FARGATE"] # Stating that we are using ECS Fargate
+  network_mode             = "awsvpc"    # Using awsvpc as our network mode as this is required for Fargate
+  memory                   = 512         # Specifying the memory our container requires
+  cpu                      = 256         # Specifying the CPU our container requires
+  execution_role_arn       = "${aws_iam_role.ecsTaskExecutionRole.arn}"
 }
 
-resource "aws_ecs_service" "web-server-service" {
-  name            = "web-server-service"
-  iam_role        = "${aws_iam_role.ecs-service-role.name}"
-  cluster         = "${aws_ecs_cluster.public-ecs-cluster.id}"
-  task_definition = "${aws_ecs_task_definition.nginx.family}:${max("${aws_ecs_task_definition.nginx.revision}", "${data.aws_ecs_task_definition.nginx.revision}")}"
-  desired_count   = 2
-
-  load_balancer {
-    target_group_arn = "${aws_alb_target_group.public-ecs-target-group.arn}"
-    container_port   = 80
-    container_name   = "nginx"
-  }
+resource "aws_iam_role" "ecsTaskExecutionRole" {
+  name               = "ecsTaskExecutionRole"
+  assume_role_policy = "${data.aws_iam_policy_document.assume_role_policy.json}"
 }
 
-##########################################################################
-# App Servers
-##########################################################################
-data "aws_ecs_task_definition" "tomcat" {
-  task_definition = "${aws_ecs_task_definition.tomcat.family}"
-}
+data "aws_iam_policy_document" "assume_role_policy" {
+  statement {
+    actions = ["sts:AssumeRole"]
 
-resource "aws_ecs_task_definition" "tomcat" {
-  family = "tomcat"
-
-  container_definitions = <<DEFINITION
-  [
-    {
-        "name": "tomcat-webserver",
-        "image": "tomcat",
-        "memory": 256,
-        "cpu": 256,
-        "essential": true,
-        "portMappings": [
-          {
-            "containerPort": 8080,
-            "hostPort": 8080,
-            "protocol": "tcp"
-          }
-        ]
+    principals {
+      type        = "Service"
+      identifiers = ["ecs-tasks.amazonaws.com"]
     }
-  ]
-  DEFINITION
-}
-
-resource "aws_ecs_service" "tomcat-server-service" {
-  name            = "tomcat-server-service"
-  iam_role        = "${aws_iam_role.ecs-service-role.name}"
-  cluster         = "${aws_ecs_cluster.appserver-ecs-cluster.id}"
-  task_definition = "${aws_ecs_task_definition.tomcat.family}:${max("${aws_ecs_task_definition.tomcat.revision}", "${data.aws_ecs_task_definition.tomcat.revision}")}"
-  desired_count   = 2
-
-  load_balancer {
-    target_group_arn = "${aws_alb_target_group.appservers-ecs-target-group.arn}"
-    container_port   = 8080
-    container_name   = "tomcat-webserver"
   }
 }
 
-##########################################################################
-# DB Servers
-##########################################################################
-data "aws_ecs_task_definition" "mysql" {
-  task_definition = "${aws_ecs_task_definition.mysql.family}"
-}
-
-resource "aws_ecs_task_definition" "mysql" {
-  family = "mysql"
-
-  container_definitions = <<DEFINITION
-  [
-    {
-        "name": "mysql",
-        "image": "mysql",
-        "memory": 256,
-        "cpu": 256,
-        "essential": true,
-        "portMappings": [
-          {
-            "containerPort": 3306,
-            "hostPort": 3306,
-            "protocol": "tcp"
-          }
-        ],
-        "environment": [
-          {
-            "name": "MYSQL_ROOT_PASSWORD",
-            "value": "password"
-          }
-        ]
-    }
-  ]
-  DEFINITION
-}
-
-resource "aws_ecs_service" "mysql-server-service" {
-  name            = "mysql-server-service"
-  iam_role        = "${aws_iam_role.ecs-service-role.name}"
-  cluster         = "${aws_ecs_cluster.dbserver-ecs-cluster.id}"
-  task_definition = "${aws_ecs_task_definition.mysql.family}:${max("${aws_ecs_task_definition.mysql.revision}", "${data.aws_ecs_task_definition.mysql.revision}")}"
-  desired_count   = 2
-
-  load_balancer {
-    target_group_arn = "${aws_alb_target_group.dbservers-ecs-target-group.arn}"
-    container_port   = 3306
-    container_name   = "mysql"
-  }
+resource "aws_iam_role_policy_attachment" "ecsTaskExecutionRole_policy" {
+  role       = "${aws_iam_role.ecsTaskExecutionRole.name}"
+  policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy"
 }
