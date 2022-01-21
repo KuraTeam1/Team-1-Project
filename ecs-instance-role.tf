@@ -20,7 +20,7 @@ resource "aws_iam_role_policy_attachment" "ecs-instance-role-attachment" {
   policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonEC2ContainerServiceforEC2Role"
 }
 
-resource "aws_iam_instance_profile" "ecs-instance-profile1" {
+resource "aws_iam_instance_profile" "ecs-instance-profile" {
   name = "ecs-instance-profile1"
   path = "/"
 
