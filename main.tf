@@ -1,14 +1,5 @@
-terraform {
-  required_providers {
-    aws = {
-      source  = "hashicorp/aws"
-      version = "~> 3.0"
-    }
-  }
-}
-
 provider "aws" {
   region     = "${var.region}"
-  access_key = "${AWS_ACCESS_KEY_ID.circleci.id}"
-  secret_key = "${AWS_SECRET_ACCESS_KEY.circleci.id}"
+  access_key = "${var.aws_access_key}"
+  secret_key = "${var.aws_secret_key}"
 }
