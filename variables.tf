@@ -1,4 +1,4 @@
-AWS Configuration                                                        #
+# AWS Configuration                                                        
 variable "aws_access_key" {
   description = "AWS access key"
 }
