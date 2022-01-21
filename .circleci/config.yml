@@ -9,10 +9,8 @@ jobs:
       - checkout
       - terraform/init:
           path: .
-          context: terraform
       - terraform/validate:
           path: .
-          context: terraform
       - terraform/plan:
           path: .
           context: terraform
