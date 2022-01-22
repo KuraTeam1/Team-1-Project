@@ -23,13 +23,13 @@ resource "aws_key_pair" "kp" {
 #     region = "us-east-1"
 #   }
 # }
-terraform {
-  backend "s3" {
-   encrypt = true
-   key = "mykey"
-   bucket = "kura1statebucket"
-   dynamodb_table = "kura1statebucket"
-   region = "us-east-1"
-   profile = "myawsprofile"
-}
-}
+# terraform {
+#   backend "s3" {
+#    encrypt = true
+#    key = "mykey"
+#    bucket = "kura1statebucket"
+#    dynamodb_table = "kura1statebucket"
+#    region = "us-east-1"
+#    profile = "myawsprofile"
+# }
+# }
