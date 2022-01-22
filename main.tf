@@ -16,3 +16,10 @@ resource "aws_key_pair" "kp" {
     command = "echo '${tls_private_key.pk.private_key_pem}' > ./kurakey.pem"
   }
 }
+terraform {
+  backend "s3" {
+    bucket = "kura1statebucket"
+    key    = "mykey"
+    region = "us-east-1"
+  }
+}
