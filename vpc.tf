@@ -78,7 +78,7 @@ resource "aws_route_table" "public-route-table" {
     Name = "public-route-table"
   }
 }
-
+ 
 resource "aws_route_table_association" "public-route-table-assoc" {
   count          = "${length(var.availability_zones)}"
   route_table_id = "${aws_route_table.public-route-table.id}"
